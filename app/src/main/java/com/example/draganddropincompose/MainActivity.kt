@@ -21,6 +21,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.example.draganddropincompose.apis.DragAndDropApis
+import com.example.draganddropincompose.pointerinput.DragAndDropPointerInput
 import com.example.draganddropincompose.ui.theme.DragAndDropInComposeTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -36,7 +38,12 @@ class MainActivity : ComponentActivity() {
                     topBar = {
                         TopAppBar(
                             title = {
-                                Text("Drag and Drop in Compose!")
+                                val topAppBarText = when (screen) {
+                                    Screen.HOME -> "Drag and Drop in Compose!"
+                                    Screen.DRAG_AND_DROP_POINTER_INPUT -> "Drag and Drop Pointer Input"
+                                    Screen.DRAG_AND_DROP_APIS -> "Drag and Drop APIs"
+                                }
+                                Text(topAppBarText)
                             },
                             navigationIcon = {
                                 IconButton(
@@ -56,12 +63,12 @@ class MainActivity : ComponentActivity() {
                             HomeScreen(modifier = Modifier.padding(innerPadding)) { screen = it }
                         }
 
-                        Screen.DRAG_AND_DROP_MANUAL_HANDLING -> {
-
+                        Screen.DRAG_AND_DROP_POINTER_INPUT -> {
+                            DragAndDropPointerInput(modifier = Modifier.padding(innerPadding))
                         }
 
                         Screen.DRAG_AND_DROP_APIS -> {
-
+                            DragAndDropApis(modifier = Modifier.padding(innerPadding))
                         }
                     }
                 }
@@ -75,9 +82,9 @@ fun HomeScreen(modifier: Modifier, onClick: (Screen) -> Unit) {
     Column(modifier = modifier) {
         TextButton(
             modifier = Modifier.padding(16.dp),
-            onClick = { onClick(Screen.DRAG_AND_DROP_MANUAL_HANDLING) }
+            onClick = { onClick(Screen.DRAG_AND_DROP_POINTER_INPUT) }
         ) {
-            Text("Drag and Drop Manual Handling")
+            Text("Drag and Drop Pointer Input")
         }
 
         TextButton(
@@ -91,6 +98,6 @@ fun HomeScreen(modifier: Modifier, onClick: (Screen) -> Unit) {
 
 enum class Screen {
     HOME,
-    DRAG_AND_DROP_MANUAL_HANDLING,
+    DRAG_AND_DROP_POINTER_INPUT,
     DRAG_AND_DROP_APIS
 }
